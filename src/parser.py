@@ -3,7 +3,7 @@ import requests
 import sys
 from cruise_obj import Cruise
 from line_obj import Line
-from ship_obj import Ship
+from ship_obj import Ships
 
 
 URL = "https://cruises.affordabletours.com/search/advanced_search"
@@ -22,7 +22,8 @@ def main(destination):
             cruise_data = get_cruise_data(cruise)
             new_line = Line(cruise_data[1])
             new_line.add_line()
-            new_ship = Ship(cruise_data[2])
+            new_ship = Ships(cruise_data[2])
+            new_ship.add_ship()
 
         i+=1
 

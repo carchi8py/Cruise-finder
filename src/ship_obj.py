@@ -3,7 +3,7 @@ from sqlalchemy import exists
 from database_setup import Base, CruiseLine, Ship
 import db
 
-class Ship:
+class Ships:
     def __init__(self, name, build_year, refurbished_year, crew, passagers, bars, pools, casinos):
         self.name = name
         self.build_year = build_year
@@ -23,8 +23,8 @@ class Ship:
         return self.get_ship()
 
     def exists(self):
-        ship_obj  = db.session.query(exists().where(Ship.name == self.name)).scalar()
-        if ship_obj:
+        ship_obj = db.session.query(exists().where(Ship.name == self.name)).scalar()
+        if not ship_obj:
             return False
         return True
 
