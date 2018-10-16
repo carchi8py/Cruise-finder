@@ -26,6 +26,6 @@ class Line:
         db.session.commit()
 
     def get_line(self):
-        return db.session.query(CruiseLine).filter_by(name=self.name)
+        return db.session.query(CruiseLine).filter_by(name=self.name).one()
 
 

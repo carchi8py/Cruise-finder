@@ -21,8 +21,8 @@ def main(destination):
         for cruise in cruises[1:]:
             cruise_data = get_cruise_data(cruise)
             new_line = Line(cruise_data[1])
-            new_line.add_line()
-            new_ship = Ships(cruise_data[2], cruise_data[1])
+            line_obj = new_line.add_line()
+            new_ship = Ships(cruise_data[2], cruise_data[1], line_obj)
             new_ship.add_ship()
             new_cruise = Cruise(cruise_data[7])
 

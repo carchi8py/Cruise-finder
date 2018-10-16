@@ -17,9 +17,10 @@ class Ships:
         self.pools = pools
         self.casinos = casinos
 
-    def __init__(self, name, line):
+    def __init__(self, name, line, line_obj):
         self.name = name
         self.line = line
+        self.line_obj = line_obj
 
     def add_ship(self):
         if not self.exists():
@@ -44,13 +45,13 @@ class Ships:
                             passagers=data['passagers'],
                             bars=data['bars'],
                             pools=data['pools'],
-                            casinos=data['casinos'])
+                            casinos=data['casinos'],
+                            line=self.line_obj)
         else:
             print(ship_url)
             sys.exit(1)
         db.session.add(new_ship)
         db.session.commit()
-        self.get_ship_data()
 
     def get_ship(self):
         return db.session.query(Ship).filter_by(name=self.name)
@@ -70,7 +71,7 @@ class Ships:
             ship_name = 'MSC' + self.name
         elif line == 'Celebrity_Cruises':
             ship_name = 'Celebrity' + self.name
-        elif line == 'Norwegian_Cruises':
+        elif line == 'Norwegian_Cruises' and self.name != 'Pride of America':
             ship_name = 'Norwegian' + self.name
         elif line == 'Seabourn_Cruises':
             ship_name = 'Seabourn' + self.name

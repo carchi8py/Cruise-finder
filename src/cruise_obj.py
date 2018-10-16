@@ -6,8 +6,8 @@ import db
 import sys
 
 class Cruise:
-    def __init__(self, id):
-        self.id
+    def __init__(self, cruse_id):
+        self.id = cruse_id
 
     def add_curise(self):
         if not self.exists():
