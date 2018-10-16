@@ -24,6 +24,7 @@ def main(destination):
             new_line.add_line()
             new_ship = Ships(cruise_data[2], cruise_data[1])
             new_ship.add_ship()
+            new_cruise = Cruise(cruise_data[7])
 
         i+=1
 
