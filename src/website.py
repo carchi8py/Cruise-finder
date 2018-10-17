@@ -16,6 +16,16 @@ def cruise_by_price_pre_day():
     cruises = session.query(Cruise).order_by(Cruise.price / Cruise.nights)
     return render_template('cruise.html', cruises=cruises)
 
+@app.route('/ships/')
+def ships():
+    ships = session.query(Ship).order_by(Ship.name)
+    return render_template('ship.html', ships=ships)
+
+@app.route("/ships/<id>")
+def ship_info(id):
+    ship = session.query(Ship).filter_by(id = id)
+    return render_template('ship.html', ships=ship)
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
