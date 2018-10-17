@@ -1,9 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
-from cruise_obj import Cruise
+from cruise_obj import Cruises
 from line_obj import Line
 from ship_obj import Ships
+from port_obj import Ports
+import datetime
+from re import sub
 
 
 URL = "https://cruises.affordabletours.com/search/advanced_search"
@@ -23,8 +26,14 @@ def main(destination):
             new_line = Line(cruise_data[1])
             line_obj = new_line.add_line()
             new_ship = Ships(cruise_data[2], cruise_data[1], line_obj)
-            new_ship.add_ship()
-            new_cruise = Cruise(cruise_data[7])
+            ship_obj = new_ship.add_ship()
+            new_port = Ports(cruise_data[4])
+            port_obj = new_port.add_port()
+            cruise_date = datetime.datetime.strptime(cruise_data[0], "%b %d, %Y").date()
+            money_int = int(sub(r'[^\d.]', '', cruise_data[6]))
+            new_cruise = Cruises(cruise_data[7], cruise_date, cruise_data[3], port_obj,
+                                cruise_data[5], money_int, line_obj, ship_obj)
+            new_cruise.add_cruise()
 
         i+=1
 
@@ -54,6 +63,7 @@ def get_cruise_data(cruise):
     nights = cruise.find("td", {"class": "table-nights"}).text
     price = cruise.find("td", {"class": "table-price"}).text
     return [date, line, ship, destination, departs, nights, price, id]
+
 
 
 if __name__ == "__main__":

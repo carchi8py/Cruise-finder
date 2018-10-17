@@ -1,15 +1,22 @@
 from bs4 import BeautifulSoup
 import requests
 from sqlalchemy import exists
-from database_setup import Base, CruiseLine, Ship
+from database_setup import Base, CruiseLine, Ship, Cruise
 import db
 import sys
 
-class Cruise:
-    def __init__(self, cruse_id):
+class Cruises:
+    def __init__(self, cruse_id, date, destination, port_obj, nights, price, line_obj, ship_obj):
         self.id = cruse_id
+        self.date = date
+        self.destination = destination
+        self.port_obj = port_obj
+        self.nights = nights
+        self.price = price
+        self.line_obj = line_obj
+        self.ship_obj = ship_obj
 
-    def add_curise(self):
+    def add_cruise(self):
         if not self.exists():
             self.add_cruise_to_db()
         return self.get_cruise()
@@ -21,16 +28,17 @@ class Cruise:
         return True
 
     def add_cruise_to_db(self):
-        cruise_url = self._curise_url()
-        data = self._parse_cruise_data(cruise_url)
+        print("Adding Cruise %s" % self.id)
+        new_ship = Cruise(id=self.id,
+                        date=self.date,
+                        line=self.line_obj,
+                        ship=self.ship_obj,
+                        destination=self.destination,
+                        departs=self.port_obj,
+                        nights=self.nights,
+                        price=self.price)
+        db.session.add(new_ship)
+        db.session.commit()
 
-
-    def _curise_url(self):
-        url = 'https://cruises.affordabletours.com/search/itsd/cruises/'
-        return url + str(self.id) + '/'
-
-    def _parse_cruise_data(self, cruise_url):
-        data = {}
-        r = requests.get(cruise_url)
-        soup = BeautifulSoup(r.text, 'html.parser')
-
+    def get_cruise(self):
+        return db.session.query(Cruise).filter_by(id=self.id).one()

@@ -54,7 +54,7 @@ class Ships:
         db.session.commit()
 
     def get_ship(self):
-        return db.session.query(Ship).filter_by(name=self.name)
+        return db.session.query(Ship).filter_by(name=self.name).one()
 
     def _ship_url(self):
         url = "https://cruises.affordabletours.com/"
