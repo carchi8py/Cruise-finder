@@ -29,7 +29,7 @@
      <tbody>
     {% for cruise in cruises %}
         <tr>
-            <td>{{cruise.id}}</td>
+            <td><a href="/itinerary/{{cruise.id}}">{{cruise.id}}</a></td>
             <td>{{cruise.date}}</td>
             <td>{{cruise.line.name}}</td>
             <td><a href="/ships/{{cruise.ship_id}}">{{cruise.ship.name}}</a></td>
